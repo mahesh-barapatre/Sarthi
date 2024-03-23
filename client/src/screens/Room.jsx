@@ -8,6 +8,8 @@ const RoomPage = () => {
   const [remoteSocketId, setRemoteSocketId] = useState(null);
   const [myStream, setMyStream] = useState();
   const [remoteStream, setRemoteStream] = useState();
+  const [myAudio, setMyAudio] = useState(true);
+  const [remoteAudio, setRemoteAudio] = useState(true);
 
   const handleUserJoined = useCallback(({ email, id }) => {
     console.log(`Email ${email} joined room`);
@@ -110,37 +112,40 @@ const RoomPage = () => {
   ]);
 
   return (
-    <div>
-      <h1>Room Page</h1>
-      <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
-      {myStream && <button onClick={sendStreams}>Send Stream</button>}
-      {remoteSocketId && <button onClick={handleCallUser}>CALL</button>}
-      {myStream && (
-        <>
-          <h1>My Stream</h1>
-          <ReactPlayer
-            playing
-            muted={false}
-            height="100px"
-            width="200px"
-            url={myStream}
+  <div className="p-6 bg-gray-100">
+    <h1 className="text-3xl font-bold mb-4">Room Page</h1>
+    <h4 className="text-lg">{remoteSocketId ? "Connected" : "No one in room"}</h4>
+    {myStream && <button onClick={sendStreams} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Send Stream</button>}
+    {remoteSocketId && <button onClick={handleCallUser} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">CALL</button>}
+    {myStream && (
+      <div className="mt-4">
+        <h1 className="text-xl font-bold">My Stream</h1>
+        <ReactPlayer
+          playing
+          muted={myAudio}
+          height="100px"
+          width="200px"
+          url={myStream}
           />
-        </>
-      )}
-      {remoteStream && (
-        <>
-          <h1>Remote Stream</h1>
-          <ReactPlayer
-            playing
-            muted={false}
-            height="100px"
-            width="200px"
-            url={remoteStream}
-          />
-        </>
-      )}
-    </div>
-  );
+        <button onClick={()=>setMyAudio((prev)=>!prev)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Send Stream</button>
+      </div>
+    )}
+    {remoteStream && (
+      <div className="mt-4">
+        <h1 className="text-xl font-bold">Remote Stream</h1>
+        <ReactPlayer
+          playing
+          muted={remoteAudio}
+          height="100px"
+          width="200px"
+          url={remoteStream}
+        />
+        <button onClick={()=>setRemoteAudio((prev)=>!prev)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Send Stream</button>
+      </div>
+    )}
+  </div>
+);
+
 };
 
 export default RoomPage;

@@ -33,30 +33,36 @@ const LobbyScreen = () => {
     };
   }, [socket, handleJoinRoom]);
 
-  return (
-    <div>
-      <h1>Lobby</h1>
-      <form onSubmit={handleSubmitForm}>
-        <label htmlFor="email">Email ID</label>
+return (
+  <div className="p-6">
+    <h1 className="text-3xl font-bold mb-4">Lobby</h1>
+    <form onSubmit={handleSubmitForm} className="space-y-4">
+      <div className="flex flex-col">
+        <label htmlFor="email" className="text-lg">Email ID</label>
         <input
           type="email"
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
         />
-        <br />
-        <label htmlFor="room">Room Number</label>
+      </div>
+      <div className="flex flex-col">
+        <label htmlFor="room" className="text-lg">Room Number</label>
         <input
           type="text"
           id="room"
           value={room}
           onChange={(e) => setRoom(e.target.value)}
+          className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
         />
-        <br />
-        <button>Join</button>
-      </form>
-    </div>
-  );
+      </div>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Join
+      </button>
+    </form>
+  </div>
+);
 };
 
 export default LobbyScreen;
